@@ -24,7 +24,7 @@
         <nav class="bg-white shadow-md">
             <div class="container mx-auto flex items-center justify-between p-4">
                 <a class="text-xl font-semibold text-gray-800" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'IMILKOM') }}
                 </a>
                 <button class="text-gray-600 focus:outline-none lg:hidden" data-collapse-toggle="navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
@@ -40,49 +40,14 @@
                                     <a class="text-gray-700 hover:text-gray-900" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
-                            <!-- @if (Route::has('register'))
-                                <li>
-                                    <a class="text-gray-700 hover:text-gray-900" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif -->
-                        @else
-                            <li>
-                                <a href="{{ route('projects.index') }}" class="text-gray-700 hover:text-gray-900">Projects</a>
-                            </li>
-                            @can('viewAny', App\Models\User::class)
-                                <a href="{{ route('users.index') }}" class="text-gray-700 hover:text-gray-900">Users</a>
-                            @endcan
-                            <li class="relative">
-                                <button id="user-menu-button" class="text-gray-700 hover:text-gray-900 flex items-center" aria-haspopup="true" aria-expanded="false">
-                                    {{ Auth::user()->name }}
-                                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
-
-                                <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
-                                    <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
                         @endguest
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <main class="py-4">
-            <div class="max-w-80 mx-auto sm:px-6 lg:px-6 space-y-6">
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <div class="container mx-auto p-4">
-                        @yield('content')
-                    </div>
-                </div>
-            </div>
+        <main>
+            @yield('content')
         </main>
     </div>
 

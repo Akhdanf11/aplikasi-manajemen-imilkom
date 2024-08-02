@@ -54,6 +54,12 @@
                 </li>
             @endforeach
         </ul>
+
+        <!-- Pagination Links -->
+        <div class="mt-6">
+            {{ $projects->links() }}
+        </div>
+
     </div>
 </div>
 
@@ -65,9 +71,9 @@
     <!-- Modal Content -->
     <div class="relative bg-white rounded-lg shadow-lg p-6 max-w-sm w-full">
         <div class="absolute inset-0 bg-white opacity-20 rounded-lg"></div>
-        <div class="relative z-10 backdrop-blur-sm bg-white bg-opacity-30 borde rounded-lg">
+        <div class="relative z-10 backdrop-blur-sm bg-white bg-opacity-30 border rounded-lg">
             <h2 class="text-lg font-semibold mb-4">Confirm Deletion</h2>
-            <p class="text-gray-700 mb-4">Are you sure you want to delete this  <b>{{ $project->name }}</b>? This action cannot be undone.</p>
+            <p class="text-gray-700 mb-4">Are you sure you want to delete this <b>{{ $project->name }}</b>? This action cannot be undone.</p>
             <form id="delete-form" method="POST" action="">
                 @csrf
                 @method('DELETE')
@@ -83,7 +89,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
     function openDeleteModal(projectId) {

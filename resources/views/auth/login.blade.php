@@ -1,34 +1,37 @@
-{{-- resources/views/auth/login.blade.php --}}
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
-    <div class="flex items-center justify-center min-h-screen bg-gray-100">
-        <div class="max-w-md w-full p-6 bg-white bg-opacity-40 rounded-lg shadow-md backdrop-blur-md border border-gray-300">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6">{{ __('Login') }}</h2>
-            <form method="POST" action="{{ route('login') }}">
-                @csrf
+<div class="flex items-center justify-center min-h-screen bg-gray-100  lg:mx-0 mx-4">
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg border border-gray-200 max-h-screen flex flex-col justify-center">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">{{ __('Login') }}</h2>
+        <form method="POST" action="{{ route('login') }}" class="flex flex-col">
+            @csrf
 
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700 text-sm font-medium">{{ __('E-Mail Address') }}</label>
-                    <input id="email" type="email" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 sm:text-sm" name="email" value="{{ old('email') }}" required autofocus>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-medium">{{ __('E-Mail Address') }}</label>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 text-sm font-medium">{{ __('Password') }}</label>
+                <input id="password" type="password" name="password" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center">
+                    <input id="remember" type="checkbox" name="remember" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="remember" class="ml-2 text-sm text-gray-600">{{ __('Remember Me') }}</label>
                 </div>
 
-                <div class="mb-4">
-                    <label for="password" class="block text-gray-700 text-sm font-medium">{{ __('Password') }}</label>
-                    <input id="password" type="password" class="mt-1 block w-full p-3 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 sm:text-sm" name="password" required>
-                </div>
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-700">{{ __('Forgot Your Password?') }}</a>
+                @endif
+            </div>
 
-                <div class="mb-4 flex items-center">
-                    <input id="remember" type="checkbox" class="h-4 w-4 text-primary-600 border-gray-300 rounded" name="remember">
-                    <label for="remember" class="ml-2 text-gray-700 text-sm">{{ __('Remember Me') }}</label>
-                </div>
-
-                <div class="flex items-center justify-between mt-4">
-                    <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition">
-                        {{ __('Login') }}
-                    </button>
-                </div>
-            </form>
-        </div>
+            <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition mt-4">
+                {{ __('Login') }}
+            </button>
+        </form>
     </div>
+</div>
 @endsection

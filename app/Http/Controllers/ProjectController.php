@@ -23,6 +23,7 @@ class ProjectController extends Controller
         $projects = $query->with('department', 'tasks')->get();
 
         // Fetch all departments for the filter dropdown
+        $projects = $query->paginate(10);
         $departments = Department::all();
 
         if ($request->ajax()) {
