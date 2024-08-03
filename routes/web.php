@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
@@ -8,6 +7,8 @@ use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\LeaveRequestController;
 
 // Resource route for projects
 Route::resource('projects', ProjectController::class);
@@ -30,42 +31,54 @@ Route::prefix('projects/{project}')->group(function () {
     Route::delete('income/{income}', [IncomeController::class, 'destroy'])->name('projects.income.destroy');
 });
 
-// Dashboard routes
+// General dashboard route
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
-// Dashboard routes by role
+// Routes for specific roles
 Route::middleware(['auth', 'role:Anggota Departemen'])->group(function () {
     Route::get('/dashboard/anggota-departemen', [DashboardController::class, 'anggotaDepartemen'])->name('dashboard.anggota-departemen');
 });
-Route::middleware(['auth', 'role:Kepala Departemen, Sekretaris Departemen'])->group(function () {
+
+Route::middleware(['auth', 'role:Kepala Departemen,Sekretaris Departemen'])->group(function () {
     Route::get('/dashboard/kepala-departemen', [DashboardController::class, 'kepalaDepartemen'])->name('dashboard.kepala-departemen');
 });
-Route::middleware(['auth', 'role:Ketua Umum, Sekretaris Umum, Bendahara Umum'])->group(function () {
+
+Route::middleware(['auth', 'role:Ketua Umum,Sekretaris Umum,Bendahara Umum'])->group(function () {
     Route::get('/dashboard/bph', [DashboardController::class, 'bph'])->name('dashboard.bph');
+
+    // BPH-specific routes
+    Route::get('/bph/projects', [ProjectController::class, 'bphIndex'])->name('bph.projects');
+    Route::get('/department/projects', [ProjectController::class, 'departmentIndex'])->name('department.projects');
+
+    Route::get('/attendance/report', [AttendanceController::class, 'report'])->name('attendance.report');
+
+    Route::post('/leave-requests/{id}/approve', [LeaveRequestController::class, 'approve'])->name('leave_requests.approve');
+    Route::post('/leave-requests/{id}/reject', [LeaveRequestController::class, 'reject'])->name('leave_requests.reject');
 });
 
-// For BPH to view projects and tasks by department
-Route::get('/bph/projects', [ProjectController::class, 'bphIndex'])->name('bph.projects');
-
-// For department heads and members to view their specific department projects and tasks
-Route::get('/department/projects', [ProjectController::class, 'departmentIndex'])->name('department.projects');
-
-Route::resource('inventories', InventoryController::class);
-
+// Routes accessible to all authenticated users
 Route::middleware(['auth'])->group(function () {
+    Route::resource('inventories', InventoryController::class);
     Route::get('/inventories/{id}/confirm-delete', [InventoryController::class, 'confirmDelete'])->name('inventories.confirmDelete');
     Route::delete('/inventories/{id}', [InventoryController::class, 'destroy'])->name('inventories.destroy');
-});
 
+    Route::get('/attendance/schedule', [AttendanceController::class, 'schedule'])->name('attendance.schedule');
+    Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn'])->name('attendance.clockIn');
+    Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clockOut');
+    Route::get('/leave-requests', [LeaveRequestController::class, 'index'])->name('leave_requests.index');
+    Route::get('/leave-requests/create', [LeaveRequestController::class, 'create'])->name('leave_requests.create');
+    Route::post('/leave-requests', [LeaveRequestController::class, 'store'])->name('leave_requests.store');
+});
 
 // Welcome page
 Route::get('/', function () {
     return view('welcome');
 });
-Route::group(['middleware' => ['role:Ketua Umum,Sekretaris Umum,Bendahara Umum']], function () {
+
+// User management routes for specific roles
+Route::middleware(['auth', 'role:Ketua Umum,Sekretaris Umum,Bendahara Umum'])->group(function () {
     Route::resource('users', UserController::class);
 });
-
 
 // Authentication routes
 Auth::routes();

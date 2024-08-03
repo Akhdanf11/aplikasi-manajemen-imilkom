@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Income;
+use App\Models\Attendance;
 use App\Models\Expenditure;
 
 class Project extends Model
@@ -42,5 +43,9 @@ class Project extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
     }
 }

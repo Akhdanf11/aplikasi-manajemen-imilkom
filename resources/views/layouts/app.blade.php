@@ -40,33 +40,41 @@
                                     <a class="text-gray-700 hover:text-gray-900" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
-                            <!-- @if (Route::has('register'))
-                                <li>
-                                    <a class="text-gray-700 hover:text-gray-900" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif -->
                         @else
                             <li>
                                 <a href="{{ route('projects.index') }}" class="text-gray-700 hover:text-gray-900">Projects</a>
                             </li>
                             @can('viewAny', App\Models\User::class)
+                            <li>
                                 <a href="{{ route('users.index') }}" class="text-gray-700 hover:text-gray-900">Users</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('attendance.report') }}" class="text-gray-700 hover:text-gray-900">Report</a>
+                            </li>
                             @endcan
+                            <li>
+                                <a href="{{ route('attendance.schedule') }}" class="text-gray-700 hover:text-gray-900">Schedule</a>
+                            </li>
                             <li>
                                 <a href="{{ route('inventories.index') }}" class="text-gray-700 hover:text-gray-900">Inventory</a>
                             </li>
+                            <li>
+                                <a href="{{ route('leave_requests.index') }}" class="text-gray-700 hover:text-gray-900">Leave</a>
+                            </li>
+
                             <li class="relative">
                                 <button id="user-menu-button" class="text-gray-700 hover:text-gray-900 flex items-center" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                     <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </button>
 
-                                <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden">
+                                <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
                                     <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
+
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                                         @csrf
                                     </form>
@@ -79,34 +87,16 @@
         </nav>
 
         <main class="py-4">
-            <div class="max-w-80 mx-auto sm:px-6 lg:px-6 space-y-6">
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <div class="container mx-auto p-4">
-                        @yield('content')
-                    </div>
-                </div>
-            </div>
+            @yield('content')
         </main>
     </div>
 
-    <!-- Flowbite JavaScript -->
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.js"></script>
+    <!-- Flowbite JS -->
+    <script src="https://unpkg.com/flowbite@latest/dist/flowbite.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const menuButton = document.getElementById('user-menu-button');
-            const menu = document.getElementById('user-menu');
-
-            menuButton.addEventListener('click', function () {
-                menu.classList.toggle('hidden');
-            });
-
-            // Close the menu when clicking outside
-            document.addEventListener('click', function (event) {
-                if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
-                    menu.classList.add('hidden');
-                }
-            });
+        document.getElementById('user-menu-button').addEventListener('click', function () {
+            const userMenu = document.getElementById('user-menu');
+            userMenu.classList.toggle('hidden');
         });
     </script>
 </body>

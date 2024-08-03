@@ -42,4 +42,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class);
     }
+    public function hasRole($roleName)
+    {
+        return $this->role && $this->role->name === $roleName;
+    }
 }
