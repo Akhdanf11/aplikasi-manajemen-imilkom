@@ -7,6 +7,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ExpenditureController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\InventoryController;
 
 // Resource route for projects
 Route::resource('projects', ProjectController::class);
@@ -48,6 +49,14 @@ Route::get('/bph/projects', [ProjectController::class, 'bphIndex'])->name('bph.p
 
 // For department heads and members to view their specific department projects and tasks
 Route::get('/department/projects', [ProjectController::class, 'departmentIndex'])->name('department.projects');
+
+Route::resource('inventories', InventoryController::class);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/inventories/{id}/confirm-delete', [InventoryController::class, 'confirmDelete'])->name('inventories.confirmDelete');
+    Route::delete('/inventories/{id}', [InventoryController::class, 'destroy'])->name('inventories.destroy');
+});
+
 
 // Welcome page
 Route::get('/', function () {

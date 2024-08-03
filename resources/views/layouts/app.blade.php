@@ -53,6 +53,9 @@
                             @can('viewAny', App\Models\User::class)
                                 <a href="{{ route('users.index') }}" class="text-gray-700 hover:text-gray-900">Users</a>
                             @endcan
+                            <li>
+                                <a href="{{ route('inventories.index') }}" class="text-gray-700 hover:text-gray-900">Inventory</a>
+                            </li>
                             <li class="relative">
                                 <button id="user-menu-button" class="text-gray-700 hover:text-gray-900 flex items-center" aria-haspopup="true" aria-expanded="false">
                                     {{ Auth::user()->name }}
@@ -87,7 +90,8 @@
     </div>
 
     <!-- Flowbite JavaScript -->
-    <script src="https://unpkg.com/flowbite@latest/dist/flowbite.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const menuButton = document.getElementById('user-menu-button');

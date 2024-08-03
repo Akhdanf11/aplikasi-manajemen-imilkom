@@ -15,4 +15,8 @@ class Department extends Model
     {
         return $this->hasMany(User::class);
     }
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class);
+    }
 }
